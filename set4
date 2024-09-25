@@ -1,0 +1,81 @@
+1. Write a R program to create an array, passing in a vector of values and a
+vector ofdimensions. Also provide names for each dimension
+
+v <- 1:24
+dim_v <- c(4,3,2)
+
+arraylist <- array(v,dim = dim_v,dimnames = list(c("row1","row2","row3","row4"),
+c("col1","col2","col3"),c("layer1","layer2")))
+arraylist
+
+
+2. Write a R program to call the (built-in) dataset airquality. Check whether it is a data
+frame ornot? Order the entire data frame by the first and second column. remove the
+variables 'Solar.R' and 'Wind' and display the data frame
+
+data(airquality)
+
+is_dataframe <- is.data.frame(airquality)
+print(paste("Is 'airquality' a data frame?", is_dataframe))
+
+ordered_airquality <- airquality[order(airquality$Ozone, airquality$Solar.R), ]
+
+modified_airquality <- subset(ordered_airquality, select = -c(Solar.R, Wind))
+
+print(modified_airquality)
+
+
+3. Load dataset named ChickWeight,
+( i). Order the data frame, in ascending order by feature name “weight” grouped by
+feature“diet” and Extract the last 6 records from order data frame.
+(ii).a Perform melting function based on “Chick", "Time", "Diet" features as ID variables
+b. Perform cast function to display the mean value of weight grouped by Diet
+c. Perform cast function to display the mode of weight grouped by Diet
+
+
+
+library(reshape2)
+
+data(ChickWeight)
+
+ordered_chickweight <- ChickWeight[order(ChickWeight$diet, ChickWeight$weight), ]
+last_6_records <- tail(ordered_chickweight, 6)
+print(last_6_records)
+
+melted_data <- melt(ChickWeight, id.vars = c("Chick", "Time", "Diet"))
+print(melted_data)
+
+mean_weight <- dcast(ChickWeight, Diet ~ ., value.var = "weight", fun.aggregate = mean)
+print(mean_weight)
+
+get_mode <- function(x) {
+  unique_x <- unique(x)
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+mode_weight <- dcast(ChickWeight, Diet ~ ., value.var = "weight", fun.aggregate = get_mode)
+print(mode_weight)
+
+
+4. Randomly Sample the iris dataset such as 80% data for training and 20% for test and
+createLogistics regression with train data, use species as target and petals width and
+length as feature variables , Predict the probability of the model using test data,
+Create Confusionmatrix for above test model
+
+
+set.seed(123)
+
+iris_sample <- iris[sample(nrow(iris)), ]
+train_index <- 1:round(0.8 * nrow(iris_sample))
+train_data <- iris_sample[train_index, ]
+test_data <- iris_sample[-train_index, ]
+
+logistic_model <- glm(Species ~ Petal.Length + Petal.Width, data = train_data, family = "binomial")
+
+predicted_probabilities <- predict(logistic_model, newdata = test_data, type = "response")
+
+predicted_classes <- ifelse(predicted_probabilities > 0.5, "versicolor", "setosa")  # Modify classes based on your model output
+
+confusion_matrix <- table(Predicted = predicted_classes, Actual = test_data$Species)
+print(confusion_matrix)
+
