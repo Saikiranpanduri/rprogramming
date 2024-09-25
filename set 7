@@ -1,0 +1,36 @@
+1. Write a R program to create an array of two 3x3 matrices each with 3
+rows and 3 columns from two given two vectors. Print the second row of
+the second matrix of the array and theelement in the 3rd row and 3rd
+column of the 1st matrix.
+
+vector1 <- 1:9
+vector2 <- 10:18
+
+matrix1 <- matrix(vector1, nrow = 3, ncol = 3)
+matrix2 <- matrix(vector2, nrow = 3, ncol = 3)
+
+array_of_matrices <- array(c(matrix1, matrix2), dim = c(3, 3, 2))
+
+second_row_matrix2 <- array_of_matrices[2, , 2]
+element_3rd_row_1st_matrix <- array_of_matrices[3, 3, 1]
+
+print(second_row_matrix2)
+print(element_3rd_row_1st_matrix)
+
+
+2. Write a R program to create an array with three columns, three rows,
+and two "tables",taking two vectors as input to the array. Print the
+array
+
+
+vector1 <- 1:6
+vector2 <- 7:12
+
+matrix1 <- matrix(vector1, nrow = 3, ncol = 3)
+matrix2 <- matrix(vector2, nrow = 3, ncol = 3)
+
+array_of_tables <- array(c(matrix1, matrix2), dim = c(3, 3, 2))
+
+print(array_of_tables)
+
+
