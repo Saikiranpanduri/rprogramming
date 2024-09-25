@@ -1,0 +1,113 @@
+1. Create below data frame exam_data = data.frame( name = c('Anastasia', 'Dima',
+'Katherine', 'James', 'Emily', 'Michael', 'Matthew', 'Laura', 'Kevin', 'Jonas'), score =
+c(12.5, 9, 16.5, 12, 9, 20, 14.5, 13.5, 8, 19), attempts = c(1, 3, 2, 3, 2, 3, 1, 1, 2, 1),
+qualify = c('yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'yes') )
+
+exam_data <- data.frame(
+  name = c('Anastasia', 'Dima', 'Katherine', 'James', 'Emily', 'Michael', 'Matthew', 'Laura', 'Kevin', 'Jonas'),
+  score = c(12.5, 9, 16.5, 12, 9, 20, 14.5, 13.5, 8, 19),
+  attempts = c(1, 3, 2, 3, 2, 3, 1, 1, 2, 1),
+  qualify = c('yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'yes')
+)
+print(exam_data)
+
+
+
+
+
+2. Write a R program to create a list of elements using vectors, matrices and a function.
+Print itcontent of the list.
+
+my_vector <- c(1, 2, 3, 4, 5)
+my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+my_function <- function(x) {
+  return(x * x)
+}
+my_list <- list(vector = my_vector, matrix = my_matrix, square_function = my_function)
+print(my_list)
+print("Vector:")
+print(my_list$vector)
+print("Matrix:")
+print(my_list$matrix)
+print("Function output (square of 3):")
+print(my_list$square_function(3))
+
+3. Explore the USArrests dataset, contains the number of arrests for murder, assault,
+and rapefor each of the 50 states in 1973. It also contains the percentage of people in
+the state who live in an urban area.
+(i) a. Explore the summary of Data set, like number of Features and its type.
+Find the number of records for each feature. Print the statistical feature of
+data b. Print thestate which saw the largest total number of rape c. Print the
+states with the max &min crime rates for murder
+(ii) a. Find the correlation among the features
+b. Print the states which have assault arrests more than median of the country
+c. Print the states are in the bottom 25% of murder
+(iii). a. Create a histogram and density plot of murder arrests by US stat
+ b. Create the plot that shows the relationship between murder arrest rate and
+proportion of the population that is urbanized by state. Then enrich the chart by
+addingassault arrest rates (by coloring the points from blue (low) to red (high)).
+c. Draw a bar graph to show the murder rate for each of the 50 states
+
+data("USArrests")
+
+summary(USArrests)
+str(USArrests)
+nrow(USArrests)
+
+max_rape_state <- rownames(USArrests)[which.max(USArrests$Rape)]
+cat("State with the largest total number of rape arrests:", max_rape_state, "\n")
+
+max_murder_state <- rownames(USArrests)[which.max(USArrests$Murder)]
+min_murder_state <- rownames(USArrests)[which.min(USArrests$Murder)]
+cat("State with the maximum murder rate:", max_murder_state, "\n")
+cat("State with the minimum murder rate:", min_murder_state, "\n")
+
+correlation_matrix <- cor(USArrests)
+cat("Correlation matrix among features:\n")
+print(correlation_matrix)
+
+median_assault <- median(USArrests$Assault)
+states_more_than_median_assault <- rownames(USArrests)[USArrests$Assault > median_assault]
+cat("States with assault arrests more than the median:\n")
+print(states_more_than_median_assault)
+
+murder_25th_percentile <- quantile(USArrests$Murder, 0.25)
+states_bottom_25_murder <- rownames(USArrests)[USArrests$Murder <= murder_25th_percentile]
+cat("States in the bottom 25% for murder rates:\n")
+print(states_bottom_25_murder)
+
+
+library(ggplot2)
+
+ggplot(USArrests, aes(x = Murder)) + 
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
+  labs(title = "Histogram of Murder Arrests by US State", x = "Murder Arrest Rate", y = "Frequency")
+
+ggplot(USArrests, aes(x = Murder)) + 
+  geom_density(fill = "lightgreen", alpha = 0.5) +
+  labs(title = "Density Plot of Murder Arrests by US State", x = "Murder Arrest Rate", y = "Density")
+
+ggplot(USArrests, aes(x = UrbanPop, y = Murder, color = Assault)) + 
+  geom_point(size = 3) +
+  scale_color_gradient(low = "blue", high = "red") +
+  labs(title = "Murder Arrest Rate vs Urban Population (Colored by Assault Rate)", 
+       x = "Urban Population (%)", 
+       y = "Murder Arrest Rate") +
+  theme_minimal()
+
+ggplot(USArrests, aes(x = reorder(rownames(USArrests), Murder), y = Murder)) + 
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Murder Rate by State", x = "State", y = "Murder Rate") +
+  theme_minimal()
+
+
+
+4. Write a R program to read the .csv file and display the content
+
+data <- read.csv("myfile.csv")
+print(data)
+
+
+
+
