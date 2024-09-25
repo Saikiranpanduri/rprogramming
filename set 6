@@ -1,0 +1,72 @@
+1. factors
+
+
+num <- 28
+factors <- c()
+
+for (i in 1:num) {
+  if (num %% i == 0) {
+    factors <- c(factors, i)
+  }
+}
+
+print(factors)
+
+
+
+2. Write a R program to create a list of random numbers in normal
+distribution and countoccurrences of each value.
+set.seed(123)
+
+random_numbers <- rnorm(100, mean = 0, sd = 1)
+random_numbers <- round(random_numbers, 2)
+
+occurrences <- table(random_numbers)
+
+print(occurrences)
+
+
+3. For this exercise, use the (built-in) dataset Titanic.
+a. Draw a Bar chart to show details of “Survived” on the Titanic based on
+passenger Class
+b. Modify the above plot based on gender of people who survived
+c. Draw histogram plot to show distribution of feature “Age”
+
+
+library(ggplot2)
+
+data("Titanic")
+titanic_df <- as.data.frame(Titanic)
+
+bar_plot_class <- ggplot(titanic_df, aes(x = Class, fill = factor(Survived))) +
+  geom_bar(position = "dodge") +
+  labs(title = "Survival on the Titanic by Passenger Class", x = "Passenger Class", fill = "Survived") +
+  theme_minimal()
+print(bar_plot_class)
+
+bar_plot_gender <- ggplot(titanic_df, aes(x = Class, fill = interaction(Sex, Survived))) +
+  geom_bar(position = "dodge") +
+  labs(title = "Survival on the Titanic by Passenger Class and Gender", x = "Passenger Class", fill = "Gender and Survived") +
+  theme_minimal()
+print(bar_plot_gender)
+
+histogram_age <- ggplot(titanic_df, aes(x = Age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Age Distribution of Titanic Passengers", x = "Age", y = "Count") +
+  theme_minimal()
+print(histogram_age)
+
+
+4. Write a R program to combine three arrays so that the first row of the
+first array is followedby the first row of the second array and then first
+row of the third array
+
+
+array1 <- array(1:6, dim = c(2, 3))
+array2 <- array(7:12, dim = c(2, 3))
+array3 <- array(13:18, dim = c(2, 3))
+
+combined_array <- rbind(array1[1, ], array2[1, ], array3[1, ])
+print(combined_array)
+
+
