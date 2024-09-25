@@ -1,0 +1,110 @@
+
+1. a. Create multi regression model to find a weight of the chicken , by “Time” and “Diet” as
+ as predictor variables
+b. Predict weight for Time=10 and Diet=1
+c. Find the error in model for same
+
+data_chicken <- data.frame(
+time = c(1,2,3,4,5),
+diet = c(1,1,1,1,1),
+weight = c(1,4,5,8,9)
+)
+
+model <- lm(weight ~ time + diet , data = data_chicken)
+print(model)
+
+new_data <- data.frame(time = 10,diet=1)
+predicted_weight <- predict(model,new_data)
+print(predicted_weight)
+
+observed_weight <- data_chicken$weight
+predicts_weight <- predict(model,data_chicken)
+rss <- sum((observed_weight-predicts_weight)^2)
+print(rss)
+
+
+
+2. (i)Get the Summary Statistics of air quality dataset
+(ii)Melt airquality data set and display as a long – format data?
+(iii) Melt airquality data and specify month and day to be “ID variables”?
+(iv)Cast the molten airquality data set with respect to month and date features
+(v) Use cast function appropriately and compute the average of Ozone, Solar.R , Wind and
+temperature per month?
+
+
+
+
+
+
+
+data <- data.frame(
+  Ozone = c(41, 36, 12, 18, NA, 28, 23, 19, 8, NA),
+  Solar.R = c(190, 118, 149, 313, NA, 299, 99, 19, 194, NA),
+  Wind = c(7.4, 8.0, 12.6, 11.5, 14.3, 8.6, 13.8, 20.1, 8.6, 6.9),
+  Temp = c(67, 72, 74, 62, 56, 65, 59, 61, 69, 74),
+  Month = c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+  Day = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+)
+
+
+summary(data)
+
+library(reshape2)
+melted_data <- melt(data, na.rm = TRUE)
+print(head(melted_data))
+
+
+melted_id <- melt(data, id.vars = c("Month", "Day"), na.rm = TRUE)
+print(head(melted_id))
+
+dcast_data <- dcast(melted_id, Month+Day ~ variable)
+print(head(dcast_data))
+
+avg <- dcast(melted_id , Month ~ variable , fun.aggregate = mean, na.rm = TRUE)
+print(avg)
+
+
+
+
+3. Randomly Sample the iris dataset such as 80% data for training and 20% for test and
+create Logistics regression with train data, use species as target and petals width and lengthas
+feature variables , Predict the probability of the model using test data, Create Confusion
+matrix for above test model.
+
+
+
+library(datasets) 
+library(caTools)  
+library(caret)     
+
+
+data(iris)
+
+
+set.seed(123)
+split <- sample.split(iris$Species, SplitRatio = 0.8)
+train_data <- iris[split == TRUE, ]
+test_data <- iris[split == FALSE, ]
+
+
+model <- glm(Species ~ Petal.Length + Petal.Width, data = train_data, family = binomial)
+
+
+predictions <- predict(model, newdata = test_data, type = "response")
+predicted_class <- ifelse(predictions > 0.5, "virginica", "versicolor")
+
+
+conf_matrix <- table(predicted_class, test_data$Species)
+print(conf_matrix)
+
+
+4. Write a R program to create an array using four given columns, three given rows, and two
+given tables and display the content of the array.
+
+
+
+
+
+my_array <- array(1:24, dim = c(3, 4, 2))
+
+print(my_array)
