@@ -1,0 +1,37 @@
+2.Write a R program to extract the five of the levels of factor created from a random sample from the
+lETTERS (Part of the base R distribution).
+
+set.seed(123)
+
+random_sample <- sample(LETTERS, size = 20, replace = TRUE)
+print(random_sample)
+factor_levels <- factor(random_sample)
+print(factor_levels)
+
+extracted_levels <- levels(factor_levels)[1:5]
+print(extracted_levels)
+
+
+
+3.Write a R program to create a vector which contains 10 random integer values between - 50 and +50.
+
+random_integers <- sample(-50:50, size = 10, replace = TRUE)
+print(random_integers)
+
+
+4.Write a R program to print the numbers from 1 to 100 and print "Fizz" for multiples of 3, print "Buzz"
+for multiples of 5, and print "FizzBuzz" for multiples of both.
+
+for (i in 1:100) {
+  if (i %% 3 == 0 && i %% 5 == 0) {
+    print("FizzBuzz")
+  } else if (i %% 3 == 0) {
+    print("Fizz")
+  } else if (i %% 5 == 0) {
+    print("Buzz")
+  } else {
+    print(i)
+  }
+}
+
+
