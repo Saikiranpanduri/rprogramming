@@ -1,0 +1,115 @@
+1. Explore the USArrests dataset, contains the number of arrests for murder, assault, and
+rape foreach of the 50 states in 1973. It also contains the percentage of people in the state
+who live in anurban area.
+(i) a. Explore the summary of Data set, like number of Features and its type. Find the
+number ofrecords for each feature. Print the statistical feature of data
+b. Print the state which saw the largest total number of rape c. Print the states with the max &
+mincrime rates for murder
+(ii). a. Find the correlation among the features
+b. Print the states which have assault arrests more than median of the country
+c. Print the states are in the bottom 25% of murder
+(iii). a. Create a histogram and density plot of murder arrests by US stat
+b. Create the plot that shows the relationship between murder arrest rate and
+proportion ofthe population that is urbanised by state. Then enrich the chart by adding
+assault arrest rates(by colouring the points from blue (low) to red (high)).
+c. Draw a bar graph to show the murder rate for each of the 50 states
+
+
+library(ggplot2)
+library(dplyr)
+
+data("USArrests")
+
+summary_info <- summary(USArrests)
+print(summary_info)
+
+largest_rape_state <- rownames(USArrests)[which.max(USArrests[, "Rape"])]
+print(largest_rape_state)
+
+max_murder_state <- rownames(USArrests)[which.max(USArrests[, "Murder"])]
+min_murder_state <- rownames(USArrests)[which.min(USArrests[, "Murder"])]
+print(c(max_murder_state, min_murder_state))
+
+correlation_matrix <- cor(USArrests)
+print(correlation_matrix)
+
+median_assault <- median(USArrests$Assault)
+high_assault_states <- rownames(USArrests[USArrests$Assault > median_assault, ])
+print(high_assault_states)
+
+bottom_25_murder <- quantile(USArrests$Murder, 0.25)
+bottom_25_states <- rownames(USArrests[USArrests$Murder < bottom_25_murder, ])
+print(bottom_25_states)
+
+ggplot(USArrests, aes(x = Murder)) +
+  geom_histogram(aes(y = ..density..), bins = 10, fill = "lightblue", color = "black") +
+  geom_density(color = "red") +
+  labs(title = "Histogram and Density Plot of Murder Arrests", x = "Murder Arrests", y = "Density")
+
+ggplot(USArrests, aes(x = UrbanPop, y = Murder, size = Assault)) +
+  geom_point(aes(color = Assault)) +
+  scale_color_gradient(low = "blue", high = "red") +
+  labs(title = "Murder Arrests vs Urban Population", x = "Urban Population (%)", y = "Murder Arrests")
+
+ggplot(USArrests, aes(x = reorder(rownames(USArrests), -Murder), y = Murder)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Murder Rates by State", x = "States", y = "Murder Arrests")
+
+
+2. Randomly Sample the iris dataset such as 80% data for training and 20% for test and
+create Logistics regression with train data, use species as target and petals width and
+length as feature variables, Predict the probability of the model using test data, Create
+Confusion matrix for abovetest model
+
+
+set.seed(123)
+
+data(iris)
+
+sample_index <- sample(1:nrow(iris), 0.8 * nrow(iris))
+train_data <- iris[sample_index, ]
+test_data <- iris[-sample_index, ]
+
+model <- glm(Species ~ Petal.Width + Petal.Length, data = train_data, family = binomial)
+
+predicted_probabilities <- predict(model, newdata = test_data, type = "response")
+predicted_classes <- ifelse(predicted_probabilities > 0.5, "versicolor", "setosa")
+
+confusion_matrix <- table(Predicted = predicted_classes, Actual = test_data$Species)
+print(confusion_matrix)
+
+
+
+3. Write a R program to save the information of a data frame in a file and display the
+information ofthe file.
+
+
+exam_data <- data.frame(
+  name = c('Anastasia', 'Dima', 'Katherine', 'James', 'Emily', 'Michael', 'Matthew', 'Laura', 'Kevin', 'Jonas'),
+  score = c(12.5, 9, 16.5, 12, 9, 20, 14.5, 13.5, 8, 19),
+  attempts = c(1, 3, 2, 3, 2, 3, 1, 1, 2, 1),
+  qualify = c('yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'no', 'yes')
+)
+
+write.csv(exam_data, file = "exam_data.csv", row.names = FALSE)
+
+saved_data <- read.csv("exam_data.csv")
+print(saved_data)
+
+
+4. Write a R program to call the (built-in) dataset airquality. Check whether it is a data frame
+or not? Order the entire data frame by the first and second column. remove the variables
+'Solar.R' and 'Wind'and display the data frame
+
+data(airquality)
+
+is_dataframe <- is.data.frame(airquality)
+print(is_dataframe)
+
+ordered_data <- airquality[order(airquality[, 1], airquality[, 2]), ]
+ordered_data <- ordered_data[, !names(ordered_data) %in% c("Solar.R", "Wind")]
+print(ordered_data)
+
+
+
