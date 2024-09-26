@@ -1,0 +1,67 @@
+1. Write a R program to create a factor corresponding to height of
+women data set , whichinbuild in R, contains height and weights for a
+sample of women.
+
+
+data("women")
+
+height_factor <- factor(women$height)
+print(height_factor)
+
+2. Write a R program to extract the five of the levels of factor
+created from a random sample from the LETTERS (Part of the
+base R distribution.
+
+
+set.seed(123)
+sample_letters <- sample(LETTERS, 20, replace = TRUE)
+letter_factor <- factor(sample_letters)
+
+five_levels <- levels(letter_factor)[1:5]
+print(five_levels)
+
+3. Write a R program to create an array of two 3x3 matrices each with
+3 rows and 3 columns from two given two vectors. Print the second
+row of the second matrix of the array and the element in the 3rd row
+and 3rd column of the 1st matrix.
+
+
+
+vector1 <- 1:9
+vector2 <- 10:18
+
+matrix1 <- matrix(vector1, nrow = 3, ncol = 3)
+matrix2 <- matrix(vector2, nrow = 3, ncol = 3)
+
+array_data <- array(c(matrix1, matrix2), dim = c(3, 3, 2))
+
+second_row_matrix2 <- array_data[2, , 2]
+element_3rd_row_3rd_col_matrix1 <- array_data[3, 3, 1]
+
+print(second_row_matrix2)
+print(element_3rd_row_3rd_col_matrix1)
+
+
+
+4. For this exercise, use the (built-in) dataset Titanic. a. Draw a Bar
+chart to show details of “Survived” on the Titanic based on passenger
+Class b. Modify the above plot based on gender of people who
+survived c. Draw histogram plot to show distribution of feature “Age
+
+library(ggplot2)
+library(dplyr)
+
+data("Titanic")
+titanic_data <- as.data.frame(Titanic)
+
+ggplot(titanic_data, aes(x = Class, fill = Survived)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Survival on the Titanic by Class", x = "Passenger Class", y = "Count")
+
+ggplot(titanic_data, aes(x = Class, fill = interaction(Survived, Sex))) +
+  geom_bar(position = "dodge") +
+  labs(title = "Survival on the Titanic by Class and Gender", x = "Passenger Class", y = "Count")
+
+ggplot(titanic_data, aes(x = Age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Age Distribution of Titanic Passengers", x = "Age", y = "Count")
