@@ -1,0 +1,72 @@
+1. Write a R program to draw an empty plot and an empty plot specify
+the axes limits of thegraphic
+
+plot(1, type = "n", xlab = "X-axis", ylab = "Y-axis")
+
+plot(1, type = "n", xlab = "X-axis", ylab = "Y-axis", xlim = c(0, 10), ylim = c(0, 20))
+
+2. Write a R program to create an array, passing in a vector of
+values and a vector ofdimensions. Also provide names for each
+dimension.
+
+
+values <- 1:12
+dimensions <- c(3, 2, 2)
+
+array_data <- array(values, dim = dimensions)
+
+dimnames(array_data) <- list(
+  Row = c("Row1", "Row2", "Row3"),
+  Column = c("Col1", "Col2"),
+  Table = c("Table1", "Table2")
+)
+
+print(array_data)
+
+
+
+3. (i) Get the Summary Statistics of air quality dataset
+(iii) Melt airquality data set and display as a long – format data?
+(iv) Melt airquality data and specify month and day to be “ID variables”?
+(v) Cast the molten airquality data set with respect to month and date features
+(vi) Use cast function appropriately and compute the average of
+Ozone, Solar.R , Windand temperature per month?
+
+library(reshape2)
+data("airquality")
+
+summary_stats <- summary(airquality)
+print(summary_stats)
+
+melted_airquality <- melt(airquality)
+print(melted_airquality)
+
+melted_airquality_id <- melt(airquality, id.vars = c("Month", "Day"))
+print(melted_airquality_id)
+
+casted_data <- dcast(melted_airquality_id, Month + Day ~ variable)
+print(casted_data)
+
+average_per_month <- dcast(melted_airquality_id, Month ~ variable, mean, na.rm = TRUE)
+print(average_per_month)
+
+
+
+4. . a. Create a data frame based on below table
+Create a regression model for that data frame table to show the amount
+of sales(Sales)based on the how much the company spends (Spends) in
+advertising c. Predict the Sales ifSpend=13500
+
+data <- data.frame(
+  Spends = c(10000, 12000, 15000, 8000, 13000, 11000, 17000, 9000),
+  Sales = c(250000, 300000, 370000, 180000, 320000, 290000, 400000, 210000)
+)
+
+model <- lm(Sales ~ Spends, data = data)
+summary(model)
+
+new_spend <- data.frame(Spends = 13500)
+predicted_sales <- predict(model, new_spend)
+print(predicted_sales)
+
+
