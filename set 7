@@ -34,3 +34,56 @@ array_of_tables <- array(c(matrix1, matrix2), dim = c(3, 3, 2))
 print(array_of_tables)
 
 
+
+3. Explore the airquality dataset. It contains daily air quality
+measurements from New Yorkduring a period of five months:
+• Ozone: mean ozone concentration (ppb),
+• Solar.R: solar radiation (Langley),
+• Wind: average wind speed (mph),
+• Temp: maximum daily temperature in degrees Fahrenheit,
+• Month: numeric month (May=5, June=6, and so on),
+• Day: numeric day of the month (1- 31).
+i. Compute the mean temperature(don’t use build in function)
+ii. Extract the first five rows from airquality.
+iii. Extract all columns from airquality except Temp and Wind
+iv. Which was the coldest day during the period?
+v. How many days was the wind speedgreater than 17 mph?
+
+
+
+
+data("airquality")
+
+temp_values <- airquality$Temp
+sum_temp <- sum(temp_values, na.rm = TRUE)
+count_temp <- sum(!is.na(temp_values))
+mean_temp <- sum_temp / count_temp
+print(mean_temp)
+
+first_five_rows <- airquality[1:5, ]
+print(first_five_rows)
+
+airquality_without_temp_wind <- airquality[, !(names(airquality) %in% c("Temp", "Wind"))]
+print(airquality_without_temp_wind)
+
+coldest_temp <- min(airquality$Temp, na.rm = TRUE)
+coldest_day <- airquality[airquality$Temp == coldest_temp, ]
+print(coldest_day)
+
+wind_days_greater_than_17 <- sum(airquality$Wind > 17, na.rm = TRUE)
+print(wind_days_greater_than_17)
+
+
+
+
+4. Write a R program to sort a given data frame by name and score.
+exam_data <- data.frame(
+  name = c('Anastasia', 'Dima', 'Katherine', 'James', 'Emily', 'Michael', 'Matthew', 'Laura', 'Kevin', 'Jonas'),
+  score = c(12.5, 9, 16.5, 12, 9, 20, 14.5, 13.5, 8, 19)
+)
+
+sorted_data <- exam_data[order(exam_data$name, exam_data$score), ]
+print(sorted_data)
+
+
+
